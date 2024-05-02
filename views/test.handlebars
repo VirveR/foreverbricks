@@ -1,0 +1,281 @@
+<script>navitem = 'nav-test';</script>
+
+<main class="col inset-box" aria-labelledby="heading-test">
+    <h2 id="heading-test">Test page</h2>
+
+    <!-- Sidebar -->
+<aside id="sidebar" class="col">
+    <p class="small">Sidebar stuff goes here</p>
+    <!-- info box -->
+    {{#if info}}
+        <div id="test-info">
+            <p>{{info}} <img class="icon-btn" src="/img/close.png" alt="" tabindex="0" role="button" onclick="toggleThis('test-info')"></p>
+        </div>
+    {{/if}}
+</aside>
+
+    <!-- Add a set to db/sets -->
+    <section id="add-set-sec" class="col" aria-labelledby="add-set-heading">
+        <form action="/test/set" method="post" enctype="x-www-form-urlencoded">
+            <h3 id="add-set-heading">Add a set to db</h3>
+            <p class="form-p small">
+                <label for="set-number-input">Number</label>
+                <input type="text" name="number" id="set-number-input">
+            </p>
+            <p class="form-p small">
+                <label for="set-name-input">Name</label>
+                <input type="text" name="name" id="set-name-input">
+            </p>
+            <p class="form-p small">
+                <label for="set-year-input">Released</label>
+                <input type="number" name="year" id="set-year-input">
+            </p>
+            <p class="form-p small">
+                <input type="checkbox" name="own" id="set-own-input" value="true">
+                <label for="set-own-input" style="display:inline">I own this</label>
+            </p>
+
+            <p class="col">
+                <button type="submit" class="btn green-btn white-txt">Add set</button>
+            </p>
+        </form>
+    </section>
+
+    <!-- Add row of content in a set in db -->
+    <section id="add-con-sec" class="col" aria-labelledby="add-con-heading">
+        <form action="/test/addcon" method="post" enctype="x-www-form-urlencoded">
+            <h3 id="add-con-heading">Add a row of content in a set</h3>
+            <p class="form-p small">
+                <label for="set-number-input">Number</label>
+                <input type="text" name="number" id="set-number-input">
+            </p>
+            <p class="form-p small">
+                <label for="part-no-input">Part n:o</label>
+                <input type="text" name="part" id="part-no-input">
+            </p>
+            <p class="form-p small">
+                <label for="part-color-input">Color</label>
+                <select name="color" id="part-color-input">
+                    <option value="white">White</option>
+                    <option value="black">Black</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="trans">Transparent</option>
+                    <option value="gray">Gray</option>
+                </select>
+            </p>
+            <p class="form-p small">
+                <label for="part-quant-input">Quantity</label>
+                <input type="number" name="quant" id="part-quant-input">
+            </p>
+            <p class="col">
+                <button type="submit" class="btn green-btn white-txt">Add row</button>
+            </p>
+        </form>
+    </section>
+
+    <!-- Add a part to db/parts -->
+    <section id="add-version-sec" class="col" aria-labelledby="add-version-heading">
+        <form action="/test/partver" method="post" enctype="x-www-form-urlencoded">
+            <h3 id="add-version-heading">Add a version to part</h3>
+
+            <div class="row">
+                <p class="form-p small">
+                    <label for="number-input">Part number</label>
+                    <input type="text" name="number" id="number-input">
+                </p>
+
+                <p class="form-p small">
+                    <label for="start-input">Version released</label>
+                    <input type="number" name="start" id="start-input">
+                </p>
+                <p class="form-p small">
+                    <label for="end-input">Discontinued</label>
+                    <input type="number" name="end" id="end-input">
+                </p>
+            </div>
+
+            <div class="row">
+                <div class="col half">
+                    <h4>Mold injection mark</h4>
+                    <p class="form-p check">
+                        <input type="checkbox" name="pip" id="pip-lower" value="Lower corner">
+                        <label for="pip-lower" style="display:inline">Short end corner</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="pip" id="pip-side" value="Short side">
+                        <label for="pip-side" style="display:inline">Short end middle</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="pip" id="pip-top" value="On stud">
+                        <label for="pip-top" style="display:inline">On a stud on top</label>
+                    </p>
+                </div>
+                <div class="col half">
+                    <h4>Info on the bottom</h4>
+                    <p class="form-p check">
+                        <input type="checkbox" name="minfo" id="minfo-pp" value="Pat.pend">
+                        <label for="minfo-pp" style="display:inline">Pat.pend</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="minfo" id="minfo-obs" value="Obscured">
+                        <label for="minfo-obs" style="display:inline"><s>Pat.pend</s></label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="minfo" id="minfo-none" value="None">
+                        <label for="minfo-none" style="display:inline">None</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="minfo" id="minfo-3001" value="Part number">
+                        <label for="minfo-obs" style="display:inline">Part number</label>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col half">
+                    <h4>Logo on studs</h4>
+                    <p class="form-p check">
+                        <input type="checkbox" name="logo" id="logo-old" value="Old">
+                        <label for="logo-old" style="display:inline">Old</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="logo" id="logo-small" value="Small variants">
+                        <label for="logo-small" style="display:inline">Small variants</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="logo" id="logo-pretty" value="Pretty">
+                        <label for="logo-pretty" style="display:inline">Pretty</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="logo" id="logo-messy" value="Messy">
+                        <label for="logo-messy" style="display:inline">Messy</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="logo" id="logo-pre" value="Pre current variants">
+                        <label for="logo-pre" style="display:inline">Pre new variants</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="logo" id="logo-current" value="Current">
+                        <label for="logo-current" style="display:inline">Current</label>
+                    </p>
+                </div>
+                <div class="col half">
+                    <h4>Mold identifier</h4>
+                    <p class="form-p check">
+                        <input type="checkbox" name="moldno" id="moldno-abc" value="ABC">
+                        <label for="moldno-abc" style="display:inline">ABC...</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="moldno" id="moldno-oldno" value="Early numbers">
+                        <label for="logo-small" style="display:inline">Early numbers</label>
+                    </p>
+                    <div class="row" style="justify-content:space-around; margin:0">
+                        <p class="form-p small">
+                            <label for="efrom-input">From</label>
+                            <input type="number" name="from" id="efrom-input" style="width:60px">
+                        </p>
+                        <p class="form-p small">
+                            <label for="eto-input">To</label>
+                            <input type="number" name="to" id="eto-input" style="width:60px">
+                        </p>
+                    </div>
+                    <p class="form-p check">
+                        <input type="checkbox" name="moldno" id="moldno-123" value="0...3">
+                        <label for="mold-no-123" style="display:inline">0...3</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="moldno" id="moldno-no" value="Current numbers">
+                        <label for="moldno-no" style="display:inline">Current numbers</label>
+                    </p>
+                    <div class="row" style="justify-content:space-around; margin:0">
+                        <p class="form-p small">
+                            <label for="efrom-input">From</label>
+                            <input type="number" name="efrom" id="efrom-input" style="width:60px">
+                        </p>
+                        <p class="form-p small">
+                            <label for="eto-input">To</label>
+                            <input type="number" name="eto" id="eto-input" style="width:60px">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="justify-content:left">
+                <div class="col half">
+                    <h4>Bottom structure features</h4>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-none" value="None">
+                        <label for="bottom-none" style="display:inline">None</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-flow" value="Flowrib">
+                        <label for="bottom-flow" style="display:inline">Flowrib</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-split" value="Split tubes">
+                        <label for="bottom-split" style="display:inline">Split tubes</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-hor" value="Horizontal lines">
+                        <label for="bottom-hor" style="display:inline">Horizontal lines</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-ver" value="Vertical lines">
+                        <label for="bottom-ver" style="display:inline">Vertical lines</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-wedge" value="Wedged tubes">
+                        <label for="bottom-wedge" style="display:inline">Wedged tubes</label>
+                    </p>
+                    <p class="form-p check">
+                        <input type="checkbox" name="bottom" id="bottom-cross" value="Cross support">
+                        <label for="bottom-cross" style="display:inline">Cross support</label>
+                    </p>
+                </div>
+            </div>
+                
+            <p class="col">
+                <button type="submit" class="btn green-btn white-txt">Add version</button>
+            </p>
+
+        </form>
+    </section>
+
+    <!-- Add a part to db/parts -->
+    <section id="add-part-sec" class="col" aria-labelledby="add-part-heading">
+        <form action="/test/part" method="post" enctype="x-www-form-urlencoded">
+            <h3 id="add-part-heading">Add a part to db</h3>
+            <p class="form-p small">
+                <label for="part-number-input">Number</label>
+                <input type="text" name="number" id="part-number-input">
+            </p>
+            <p class="form-p small">
+                <label for="part-type-select">Type</label>
+                <select name="type" id="part-type-select">
+                    <option value="Brick, basic">Brick, basic</option>
+                    <option value="Brick, special">Brick, special</option>
+                    <option value="Plate, basic">Plate, basic</option>
+                    <option value="Plate, special">Plate, special</option>
+                </select>
+            </p>
+            <p class="form-p small">
+                <label for="part-size-input">Size</label>
+                <input type="text" name="size" id="part-size-input">
+            </p>
+            <p class="col">
+                <button type="submit" class="btn green-btn white-txt">Add part</button>
+            </p>
+        </form>
+    </section>
+
+    <section aria-labelledby="icons-heading">
+        <h2 id="icons-heading">Image credits</h2>
+        <a href="https://icons8.com/icon/0P3987ksRAsP/lego-head">Lego Head icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+        <a href="https://www.flaticon.com/free-icons/close" title="close icons">Close icons created by Graphiverse - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/foursquare-check-in" title="foursquare check in icons">Foursquare check in icons created by hqrloveq - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/back" title="back icons">Back icons created by Pixel perfect - Flaticon</a>
+    </section>
+
+</main>

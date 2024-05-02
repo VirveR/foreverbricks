@@ -1,0 +1,36 @@
+<header>
+    <!-- Main heading -->
+    <div class="row" style="justify-content:center">
+        <div class="col inset-box">
+            <h1>Forever Bricks</h1>
+            <p class="no-padding">Everything you ever wanted to know about Lego 1957 - 1994</p>
+        </div>
+    </div>
+
+    <!-- Main navigation -->
+    <nav id="nav-main" class="row">
+        <div id="nav-home" class="nav-item inset-box" role="link" tabindex="0" onclick="location.href='/'">
+            Home
+        </div>
+        <div id="nav-parts" class="nav-item inset-box" role="link" tabindex="0" onclick="location.href='/parts'">
+            Parts
+        </div>
+        <div id="nav-sets" class="nav-item inset-box" role="link" tabindex="0" onclick="location.href='/sets'">
+            Sets
+        </div>
+        <div id="nav-test" class="nav-item inset-box" role="link" tabindex="0" onclick="location.href='/test'">
+            Admin
+        </div>
+        <div id="nav-blog" class="nav-item inset-box" role="link" tabindex="0" onclick="location.href='/blog'">
+            Blog
+        </div>
+    </nav>
+</header>
+
+<script>
+    // makes current nav-item step right
+    let navitem = '';
+    $(document).ready(function() {
+        document.getElementById(navitem).classList.add('nav-active');
+    });
+</script>

@@ -1,0 +1,69 @@
+<script>navitem = 'nav-sets';</script>
+
+<main class="col inset-box" aria-labelledby="heading-set-no">
+    <!-- Go back arrow -->
+    <div id="go-back" class="inset-box">
+        <img src="/img/back.png" alt="back" role="link" tabindex="0" class="icon-btn-bigger" style="padding-top:3px" onclick="location.href='/sets'">
+        <p class="small" style="margin:0">Back to Sets</p>
+    </div>
+
+    <!-- Info box -->
+    {{#if info}}
+        <div id="info-box" class="inset-box">
+            <p>{{info}} <img id="close-btn" class="icon-btn" src="/img/close.png" alt="" tabindex="0" role="button" onclick="toggleThis('info-box')"></p>
+        </div>
+    {{/if}}
+
+    <!-- Selected set -->
+    <article id="set-info">
+        <div class="row set-info-div">
+            <!-- Set image -->
+            <section id="set-img-container" class="col">
+                <img src="/img/sets/{{set.number}}.png" alt="Set {{set.number}}" class="set-img">
+            </section>
+            <section id="set-details-container" class="col paper" style="position:relative">
+                <!-- Set details -->
+                <div class="padding">
+                    <h2 id="heading-set-no">{{set.number}}: {{set.name}}</h2>
+                    <p>Released: {{set.year}}</p>
+                    <p>Instructions: <a href="https://www.toysperiod.com/lego-set-reference/classic/building/lego-326-1-small-cottage/" target="_blank">on ToysPeriod.com</a></p><br>
+                    {{#if set.own}}
+                        <p><img src="/img/check.png" alt="checkmark" class="icon"> This set is included in your collection</p>
+                        <form action="/sets/removesetfromcoll" method="post" enctype="x-www-form-urlencoded" class="btn-form">
+                            <input type="hidden" name="number" value="{{set.number}}">
+                            <button type="submit" class="btn red-btn white-txt">Remove set from your collection</button>
+                        </form>
+                    {{else}}
+                        <form action="/sets/addsettocoll" method="post" enctype="x-www-form-urlencoded" class="btn-form">
+                            <input type="hidden" name="number" value="{{set.number}}">
+                            <button type="submit" class="btn green-btn white-txt">Add set to your collection</button>
+                        </form>
+                    {{/if}}
+                </div>
+            </section>
+        </div>
+        
+        <!-- Set contents -->
+        <section id="set-contents" class="row" aria-labelledby="set-contents-heading">
+            <div class="col paper padding">
+                <h3 id="set-contents-heading">Consists of:</h3>
+                <table id="consists-table">
+                    <tr>
+                        <th onclick="sortTable('consists-table', 0)">Part</th>
+                        <th onclick="sortTable('consists-table', 1)">Quantity</th>
+                        <th onclick="sortTable('consists-table', 2)">Color</th>
+                    </tr>
+                {{#each set.consists}}
+                    <tr>
+                        <td>{{this.part}}</td>
+                        <td>{{this.quant}}</td>
+                        <td>{{this.color}}</td>
+                    </tr>
+                {{/each}}
+                </table>
+            </div>
+        </section>
+
+    </article>
+
+</main>

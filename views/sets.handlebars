@@ -1,0 +1,27 @@
+<script>navitem = 'nav-sets';</script>
+
+<main class="col inset-box" aria-labelledby="heading-sets">
+    <div class="row" style="justify-content:center;align-items:center">
+        <h2 id="heading-sets">Sets</h2>
+    </div>
+
+    <!-- All sets -->
+    {{#if sets}}
+        <table id="sets-table">
+            <tr>
+                <th onclick="sortTable('sets-table', 0)" tabindex="0">Year</th>
+                <th onclick="sortTable('sets-table', 1)" tabindex="0">N:o</th>
+                <th onclick="sortTable('sets-table', 2)" tabindex="0">Name</th>
+                <th onclick="sortTable('sets-table', 3)" tabindex="0">Own</th>
+            </tr>
+            {{#each sets}}<tr role="link" tabindex="0" onclick="location.href='/sets/{{number}}'">
+                <td>{{year}}</td>
+                <td>{{number}}</td>
+                <td>{{name}}</td>
+                <td style="width:25px;text-align:center">{{#if own}}<img src="/img/check.png" alt="checkmark" class="icon">{{/if}}</td>
+            </tr>{{/each}}
+        </table>
+    {{/if}}
+
+    
+</main>
