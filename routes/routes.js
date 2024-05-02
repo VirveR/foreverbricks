@@ -9,6 +9,9 @@ router.get('/', controller.getHome);
 // POST /login (log in)
 router.post('/login', controller.login);
 
+// POST /logout (log out)
+router.get('/logout', controller.logout);
+
 // GET /test (get test page)
 router.get('/test', controller.getTest);
 
@@ -26,8 +29,5 @@ router.post('/test/addcon', controller.addContent);
 
 // GET /blog (get blog page)
 router.get('/blog', controller.getBlog);
-
-// GET /about (get about page)
-router.get('/about', controller.getAbout);
 
 module.exports = router;

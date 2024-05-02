@@ -1,10 +1,27 @@
 <header>
     <!-- Main heading -->
-    <div class="row" style="justify-content:center">
+    <div id="intro" class="row">
         <div class="col inset-box">
             <h1>Forever Bricks</h1>
             <p class="no-padding">Everything you ever wanted to know about Lego 1957 - 1994</p>
         </div>
+
+        {{#if coll.owner}}
+            <!-- Logout -->
+            <div id="login-container" class="col inset-box" role="link" tabindex="0" onclick="location.href='/logout'">
+                <img src="/img/exit.png" alt="logout" class="icon-btn-bigger">
+                <p class="small" style="margin-bottom:0">Log out</p>
+            </div>
+        {{else}}
+            <!-- Login -->
+            <div id="login-container" class="col inset-box" role="link" tabindex="0" onclick="toggleThis('login')">
+                <img src="/img/log-in.png" alt="login" class="icon-btn-bigger">
+                <p class="small" style="margin-bottom:0">Log in</p>
+            </div>
+            <div id="login" class="popup paper">
+                {{>login}}
+            </div>
+        {{/if}}
     </div>
 
     <!-- Main navigation -->

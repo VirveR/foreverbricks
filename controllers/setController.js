@@ -9,6 +9,8 @@ const collsModel = require('../models/Collection');
 
 // GET /sets (get sets page)
 const getSets = async (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         const s = await setsModel.allSets();
         let sets = {};
@@ -32,7 +34,8 @@ const getSets = async (req, res) => {
         
         res.status(200).render('sets', {
             title: 'Sets',
-            sets: sets
+            sets: sets,
+            coll: coll
         });
     }
     catch (error) {
@@ -43,6 +46,8 @@ const getSets = async (req, res) => {
 
 // GET /sets/:number (get a set by number)
 const getSetNumber = async (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         const set = await setsModel.setNumber(req.params.number);
         if (set) {
@@ -58,13 +63,15 @@ const getSetNumber = async (req, res) => {
             }
             res.status(200).render('set', {
                 title: 'Set n:o ' + req.params.number,
-                set: set.toJSON()
+                set: set.toJSON(),
+                coll: coll
             });
         }
         else {
             res.status(404).render('sets', {
                 title: 'Sets',
-                info: `Couldn't find the set`
+                info: `Couldn't find the set`,
+                coll: coll
             });
         }
     }
@@ -73,14 +80,17 @@ const getSetNumber = async (req, res) => {
         console.log('Virhe setin haussa (nro)');
         res.render('Sets', {
             title: 'Sets',
-            info: 'Something went wrong'
+            info: 'Something went wrong',
+            coll: coll
         });
     }
 }
 
 // POST /sets/addsettocoll (add set to collection in db)
 const addSetToColl = async (req, res) => {
-    const owner = 'Virve'; //to be replaced with dynamic association
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
+    const owner = coll.owner;
     const number = req.body.number;
     try {
         if (await collsModel.addSetToColl(owner, number)) {
@@ -89,7 +99,8 @@ const addSetToColl = async (req, res) => {
             res.status(200).render('set', {
                 info: 'Set added to your collection',
                 title: 'Set n:o ' + req.params.number,
-                set: set
+                set: set,
+                coll: coll
             });
         }
         else {
@@ -106,7 +117,9 @@ const addSetToColl = async (req, res) => {
 
 // POST /sets/removesetfromcoll (remove set from collection in db)
 const removeSetFromColl = async (req, res) => {
-    const owner = 'Virve'; //to be replaced with dynamic association
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
+    const owner = coll.owner;
     const number = req.body.number;
     try {
         if (await collsModel.removeSetFromColl(owner, number)) {
@@ -115,7 +128,8 @@ const removeSetFromColl = async (req, res) => {
             res.status(200).render('set', {
                 info: 'Set removed from your collection',
                 title: 'Set n:o ' + req.params.number,
-                set: set
+                set: set,
+                coll: coll
             });
         }
         else {

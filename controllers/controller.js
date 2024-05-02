@@ -4,7 +4,8 @@ const collsModel = require('../models/Collection');
 
 /*** ROUTES ***/
 // GET / (get home page)
-// POST /login (login)
+// POST /login (log in)
+// POST /logout (log out)
 // GET /test (get test page)
 // POST /test/part (add a part to db)
 // POST /test/set (add a set to db)
@@ -16,8 +17,11 @@ const collsModel = require('../models/Collection');
 // GET / (get home page)
 const getHome = (req, res) => {
     try {
+        let coll = {};
+        if (req.session.coll) { coll = req.session.coll; }
         res.status(200).render('index', {
-            title: 'Home'
+            title: 'Home',
+            coll: coll
         });
     }
     catch (error) {
@@ -26,7 +30,7 @@ const getHome = (req, res) => {
     }
 };
 
-// POST /login (login)
+// POST /login (log in)
 const login = async (req, res) => {
     try {
         const name = req.body.name;
@@ -38,7 +42,7 @@ const login = async (req, res) => {
         }
         else {
             console.log('Virhe sisäänkirjautumisessa (model)');
-            res.status(404).redirect('/');
+            res.status(401).redirect('/');
         }
     }
     catch (error) {
@@ -48,11 +52,20 @@ const login = async (req, res) => {
     }
 }
 
+// POST /logout (log out)
+const logout = (req, res) => {
+    req.session.destroy();
+    res.status(200).redirect('/');
+}
+
 // GET /test (get test page)
 const getTest = (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         res.status(200).render('test', {
-            title: 'Test'
+            title: 'Test',
+            coll: coll
         });
     }
     catch (error) {
@@ -63,6 +76,8 @@ const getTest = (req, res) => {
 
 // POST /test/part (add a part to db)
 const addPart = async (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         const part = {
             number: req.body.number,
@@ -72,7 +87,8 @@ const addPart = async (req, res) => {
         if (await partsModel.addPart(part)) {
             res.status(200).render('test', {
                 title: 'Test',
-                info: 'Osa lisätty.'
+                info: 'Osa lisätty.',
+                coll: coll
             });
         }
         else {
@@ -89,6 +105,8 @@ const addPart = async (req, res) => {
 
 // POST /test/set (add a set to db)
 const addSet = async (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         const set = {
             number: req.body.number,
@@ -99,7 +117,8 @@ const addSet = async (req, res) => {
         if (await setsModel.addSet(set)) {
             res.status(200).render('test', {
                 title: 'Test',
-                info: 'Setti lisätty.'
+                info: 'Setti lisätty.',
+                coll: coll
             });
         }
         else {
@@ -116,6 +135,8 @@ const addSet = async (req, res) => {
 
 // POST /test/partdet (add details to part in db)
 const addVersion = async (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         const number = req.body.number;
         const version = {
@@ -137,7 +158,8 @@ const addVersion = async (req, res) => {
         if (partsModel.addVersion(number, version)) {
             res.status(200).render('test', {
                 title: 'Test',
-                info: 'Versio lisätty.'
+                info: 'Versio lisätty.',
+                coll: coll
             });
         }
         else {
@@ -154,6 +176,8 @@ const addVersion = async (req, res) => {
 
 // POST /test/addcontent (add parts to set in db)
 const addContent = (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         const number = req.body.number;
         const content = {
@@ -164,7 +188,8 @@ const addContent = (req, res) => {
         if (setsModel.addContent(number, content)) {
             res.status(200).render('test', {
                 title: 'Test',
-                info: 'Rivi lisätty'
+                info: 'Rivi lisätty',
+                coll: coll
             });
         }
         else {
@@ -181,10 +206,13 @@ const addContent = (req, res) => {
 }
 
 // GET /blog (get blog page)
-const getBlog = (rec, res) => {
+const getBlog = (req, res) => {
+    let coll = {};
+    if (req.session.coll) { coll = req.session.coll; }
     try {
         res.status(200).render('blog', {
-            title: 'Blog'
+            title: 'Blog',
+            coll: coll
         });
     }
     catch (error) {
@@ -193,21 +221,8 @@ const getBlog = (rec, res) => {
     }
 }
 
-// GET /about (get about page)
-const getAbout = (rec, res) => {
-    try {
-        res.status(200).render('about', {
-            title: 'About'
-        });
-    }
-    catch (error) {
-        console.log(error);
-        console.log('Virhe about-sivulla');
-    }
-}
-
 module.exports = {
-    getHome, login, getTest, 
+    getHome, login, logout, getTest, 
     addPart, addSet, addVersion, addContent,
-    getBlog, getAbout
+    getBlog
 };

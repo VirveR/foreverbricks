@@ -5,7 +5,11 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 app.use(cookieParser());
-app.use(session({secret: 'noyhtelisnoy'}));
+app.use(session({
+    secret: 'noyhtelisnoy',
+    resave: false,
+    saveUninitialized: false
+}));
 
 // Routing
 require('dotenv').config();
