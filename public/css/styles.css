@@ -82,6 +82,13 @@ body {
     margin: 5%;
 }
 
+.invisible.btn {
+    cursor: pointer;
+    padding: 0;
+    background-color: transparent;
+    border: 0px;
+}
+
 .red-btn {
     background-color: #E3000B;
     border: 1px solid #470206;

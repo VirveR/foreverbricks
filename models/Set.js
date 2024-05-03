@@ -51,6 +51,17 @@ const addSet = async (set) => {
     }
 }
 
+// Get set content length
+const lastRow = async (set) => {
+    try {
+        const set = await setNumber(set);
+        return set.consists.length;
+    }
+    catch (error) {
+        return -1;
+    }
+}
+
 // Add parts to a set in db
 const addContent = async (number, content) => {
     try {
@@ -64,5 +75,5 @@ const addContent = async (number, content) => {
 
 module.exports = {
     allSets, setNumber,
-    addSet, addContent
+    addSet, lastRow, addContent
 };

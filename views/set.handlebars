@@ -16,6 +16,7 @@
 
     <!-- Selected set -->
     <article id="set-info">
+
         <div class="row set-info-div">
             <!-- Set image -->
             <section id="set-img-container" class="col">
@@ -27,43 +28,71 @@
                     <h2 id="heading-set-no">{{set.number}}: {{set.name}}</h2>
                     <p>Released: {{set.year}}</p>
                     <p>Instructions: <a href="https://www.toysperiod.com/lego-set-reference/classic/building/lego-326-1-small-cottage/" target="_blank">on ToysPeriod.com</a></p><br>
-                    {{#if set.own}}
-                        <p><img src="/img/check.png" alt="checkmark" class="icon"> This set is included in your collection</p>
-                        <form action="/sets/removesetfromcoll" method="post" enctype="x-www-form-urlencoded" class="btn-form">
-                            <input type="hidden" name="number" value="{{set.number}}">
-                            <button type="submit" class="btn red-btn white-txt">Remove set from your collection</button>
-                        </form>
-                    {{else}}
-                        <form action="/sets/addsettocoll" method="post" enctype="x-www-form-urlencoded" class="btn-form">
-                            <input type="hidden" name="number" value="{{set.number}}">
-                            <button type="submit" class="btn green-btn white-txt">Add set to your collection</button>
-                        </form>
+                    {{#if coll.owner}}
+                        {{#if set.own}}
+                            <p><img src="/img/check.png" alt="checkmark" class="icon"> This set is included in your collection</p>
+                            <form action="/sets/removesetfromcoll" method="post" enctype="x-www-form-urlencoded" class="btn-form">
+                                <input type="hidden" name="number" value="{{set.number}}">
+                                <button type="submit" class="btn red-btn white-txt">Remove set from your collection</button>
+                            </form>
+                        {{else}}
+                            <form action="/sets/addsettocoll" method="post" enctype="x-www-form-urlencoded" class="btn-form">
+                                <input type="hidden" name="number" value="{{set.number}}">
+                                <button type="submit" class="btn green-btn white-txt">Add set to your collection</button>
+                            </form>
+                        {{/if}}
                     {{/if}}
                 </div>
             </section>
         </div>
-        
+
         <!-- Set contents -->
-        <section id="set-contents" class="row" aria-labelledby="set-contents-heading">
-            <div class="col paper padding">
+        <section id="set-contents" class="col" aria-labelledby="set-contents-heading">
+            <div class="col paper padding" style="position:relative">
                 <h3 id="set-contents-heading">Consists of:</h3>
-                <table id="consists-table">
-                    <tr>
-                        <th onclick="sortTable('consists-table', 0)">Part</th>
-                        <th onclick="sortTable('consists-table', 1)">Quantity</th>
-                        <th onclick="sortTable('consists-table', 2)">Color</th>
-                    </tr>
-                {{#each set.consists}}
-                    <tr>
-                        <td>{{this.part}}</td>
-                        <td>{{this.quant}}</td>
-                        <td>{{this.color}}</td>
-                    </tr>
-                {{/each}}
-                </table>
+
+                <div class="row">
+                    <h4>Bricks, basic</h4>
+                    <table id="consists-bb-table">
+                        <tr>
+                            <th onclick="sortTable('consists-bb-table', 0)">Part</th>
+                            <th onclick="sortTable('consists-bb-table', 1)">Size</th>
+                            <th onclick="sortTable('consists-bb-table', 2)">Color</th>
+                            <th onclick="sortTable('consists-bb-table', 3)">Quantity</th>
+                        </tr>
+                        {{#if admin}}
+                            {{#each set.consists}}
+                                <tr>
+                                    <td>{{this.part.number}}</td>
+                                    <td>{{this.part.size}}</td>
+                                    <td>{{this.color}}</td>
+                                    <td>{{this.quant}}</td>
+                                    <td id="delete-row"><button type="button" class="invisible-btn" onclick="deleteSetRow('{{this.rowno}}')"><img src="/img/delete.png" alt="delete" class="icon"></button></td>
+                                </tr>
+                            {{/each}}
+                        {{else}}
+                            {{#each set.consists}}
+                                <tr>
+                                    <td>{{this.part.number}}</td>
+                                    <td>{{this.part.size}}</td>
+                                    <td>{{this.color}}</td>
+                                    <td>{{this.quant}}</td>
+                                </tr>
+                            {{/each}}
+                        {{/if}}
+                    </table>
+                </div>
+
             </div>
         </section>
 
     </article>
-
 </main>
+
+<script>
+    // sort the tables
+    $(document).ready(function() {
+        sortTable('consists-bb-table', 3);
+        sortTable('consists-bb-table', 1);
+    });
+</script>

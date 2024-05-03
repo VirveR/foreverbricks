@@ -175,12 +175,14 @@ const addVersion = async (req, res) => {
 }
 
 // POST /test/addcontent (add parts to set in db)
-const addContent = (req, res) => {
+const addContent = async (req, res) => {
     let coll = {};
     if (req.session.coll) { coll = req.session.coll; }
     try {
         const number = req.body.number;
+        const rowno = (await setsModel.lastRow(number)) + 1;
         const content = {
+            rowno: rowno,
             part: req.body.part,
             color: req.body.color,
             quant: req.body.quant

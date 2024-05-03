@@ -1,4 +1,5 @@
 const setsModel = require('../models/Set');
+const partsModel = require('../models/Part');
 const collsModel = require('../models/Collection');
 
 /* ROUTES */
@@ -47,9 +48,13 @@ const getSets = async (req, res) => {
 // GET /sets/:number (get a set by number)
 const getSetNumber = async (req, res) => {
     let coll = {};
-    if (req.session.coll) { coll = req.session.coll; }
+    let admin;
+    if (req.session.coll) { 
+        coll = req.session.coll; 
+        admin = req.session.coll.owner === 'Virve';
+    }
     try {
-        const set = await setsModel.setNumber(req.params.number);
+        let set = await setsModel.setNumber(req.params.number);
         if (set) {
             if (req.session.coll) {
                 const owner = req.session.coll.owner;
@@ -57,18 +62,30 @@ const getSetNumber = async (req, res) => {
                 if (coll.sets.includes(set.number)) {
                     set.own = true;
                 }
+                else {
+                    set.own = false;
+                }
+            }
+            if (set.consists.length > 0) {
+                let consists = await Promise.all(set.consists.map(async (consists) => {
+                    let part = await partsModel.partNumber(consists.part);
+                    return {...consists, part: {number: part.number, type: part.type, size: part.size}};
+                }));
+                set = {...set.toJSON(), consists: consists};
             }
             else {
-                set.own = false;
+                set = {...set.toJSON(), consists: []};
             }
             res.status(200).render('set', {
+                admin: admin,
                 title: 'Set n:o ' + req.params.number,
-                set: set.toJSON(),
+                set: set,
                 coll: coll
             });
         }
         else {
             res.status(404).render('sets', {
+                admin: admin,
                 title: 'Sets',
                 info: `Couldn't find the set`,
                 coll: coll
@@ -79,6 +96,7 @@ const getSetNumber = async (req, res) => {
         console.log(error);
         console.log('Virhe setin haussa (nro)');
         res.render('Sets', {
+            admin: admin,
             title: 'Sets',
             info: 'Something went wrong',
             coll: coll

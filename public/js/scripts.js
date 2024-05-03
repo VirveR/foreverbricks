@@ -1,4 +1,4 @@
-// universal hide/show toggling function
+// universal hide/show by id toggling function
 function toggleThis(what) {
     let x = document.getElementById(what);
     if (x.style.display === 'none') {
@@ -6,6 +6,15 @@ function toggleThis(what) {
     }
     else {
         x.style.display = 'none';
+    }
+}
+
+// universal hide/show by class toggling function
+function toggleThese() {
+    let elements = [];
+    elements = document.querySelectorAll('.editable');
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].style.display = 'block';
     }
 }
 
